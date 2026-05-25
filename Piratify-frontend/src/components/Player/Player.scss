@@ -1,0 +1,26 @@
+.player {
+  display: flex;
+  align-items: center;
+  border-top: 2px solid black;
+  background-color: #303030;
+}
+.play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  background-color: #fff;
+  width: 32px;
+
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  svg {
+    path {
+      fill: #303030;
+    }
+    display: block;
+    margin: 0px;
+  }
+}
