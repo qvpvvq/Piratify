@@ -1,0 +1,19 @@
+.timeline {
+  height: 3px;
+  width: 360px;
+  background-color: #838383;
+  margin: 0px 20px;
+}
+.timeline-progress {
+  background-color: rgb(1, 182, 1);
+  height: 100%;
+  width: 33%;
+}
+
+.playback-timepassed {
+  font-size: 12px;
+  font-weight: bold;
+}
+.playback-duration {
+  @extend .playback-timepassed;
+}

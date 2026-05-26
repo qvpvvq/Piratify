@@ -1,8 +1,35 @@
 .player {
   display: flex;
+  justify-content: center;
   align-items: center;
   border-top: 2px solid black;
   background-color: #303030;
+  gap: 20px;
+}
+.skip-icon {
+  transition:
+    stroke 0.1s,
+    fill 0.1s;
+  &:hover {
+    stroke: #838383;
+    fill: #838383;
+  }
+}
+
+.play-control {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 125px;
+}
+.skip {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    fill: gray;
+  }
 }
 .play {
   display: flex;
@@ -23,4 +50,10 @@
     display: block;
     margin: 0px;
   }
+}
+
+.playback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
