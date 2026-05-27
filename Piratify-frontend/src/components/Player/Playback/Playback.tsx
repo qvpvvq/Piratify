@@ -1,16 +1,17 @@
 import "./Playback.scss";
 import { useEffect, useState } from "react";
 import AppSlider from "./AppSlider";
+import { formatTime } from "@/utils/formatTime";
 
 export default function Playback({ isPlaying }: { isPlaying: boolean }) {
   const [timepassed, setTimePassed] = useState(0);
   const duration = 98;
-
-  const formatTime = (seconds: number): string => {
-    const getMinutes = String(Math.trunc(seconds / 60));
-    const getSeconds = String(seconds % 60).padStart(2, "0");
-    return `${getMinutes}:${getSeconds}`;
-  };
+  const [isSeeking, setIsSeeking] = useState(false);
+  useEffect(() => {
+    const handleMouseUp = () => setIsSeeking(false);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => window.removeEventListener("mouseup", handleMouseUp);
+  }, []);
 
   useEffect(() => {
     const tick = () =>
@@ -18,10 +19,10 @@ export default function Playback({ isPlaying }: { isPlaying: boolean }) {
         if (prev >= duration) return prev;
         return prev + 1;
       });
-    if (!isPlaying) return;
+    if (!isPlaying || isSeeking) return;
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, [isPlaying, isSeeking]);
 
   return (
     <div className="playback">
@@ -32,6 +33,8 @@ export default function Playback({ isPlaying }: { isPlaying: boolean }) {
         value={timepassed}
         max={duration}
         onChange={(value) => setTimePassed(value)}
+        onSeekStart={() => setIsSeeking(true)}
+        onSeekEnd={() => setIsSeeking(false)}
       />
       <div className="playback-duration">
         <span>{formatTime(duration)}</span>
