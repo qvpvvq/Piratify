@@ -1,11 +1,10 @@
-import PlaybackTimeline from "./PlaybackProgress";
 import "./Playback.scss";
 import { useEffect, useState } from "react";
+import AppSlider from "./AppSlider";
 
 export default function Playback({ isPlaying }: { isPlaying: boolean }) {
   const [timepassed, setTimePassed] = useState(0);
   const duration = 98;
-  const progress = (timepassed / duration) * 100;
 
   const formatTime = (seconds: number): string => {
     const getMinutes = String(Math.trunc(seconds / 60));
@@ -19,7 +18,6 @@ export default function Playback({ isPlaying }: { isPlaying: boolean }) {
         if (prev >= duration) return prev;
         return prev + 1;
       });
-
     if (!isPlaying) return;
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
@@ -30,7 +28,11 @@ export default function Playback({ isPlaying }: { isPlaying: boolean }) {
       <div className="playback-timepassed">
         <span>{formatTime(timepassed)}</span>
       </div>
-      <PlaybackTimeline progress={progress} />
+      <AppSlider
+        value={timepassed}
+        max={duration}
+        onChange={(value) => setTimePassed(value)}
+      />
       <div className="playback-duration">
         <span>{formatTime(duration)}</span>
       </div>
