@@ -25,7 +25,7 @@ export default function AppSlider({
         height: 2,
         flex: 1,
         mx: 2,
-        color: "#01b601",
+        color: "var(--brand-color)",
         "& .MuiSlider-thumb": {
           width: 10,
           height: 10,

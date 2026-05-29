@@ -10,18 +10,17 @@
   align-items: center;
   width: 350px;
   height: 40px;
-  background-color: #323232;
+  background-color: var(--secondary-color);
   border-radius: 5px;
   transition: box-shadow 0.3s;
 
   &:focus-within {
-    box-shadow:
-      #838383 0px 0px 3px 0px,
-      #838383 0px 0px 0px 1px;
+    box-shadow: var(--secondary-text-color) 0px 0px 0px 1px;
   }
 }
 .search-input {
-  color: #f5f5f5;
+  color: var(--primary-text-color);
+  font-size: 16px;
   padding-left: 20px;
   height: 100%;
   flex: 1;
@@ -36,5 +35,5 @@
   border: none;
   outline: none;
   cursor: pointer;
-  color: #838383;
+  color: var(--secondary-text-color);
 }

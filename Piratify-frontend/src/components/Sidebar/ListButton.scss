@@ -1,0 +1,18 @@
+.list-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  height: 100%;
+  background-color: transparent;
+  color: var(--primary-text-color);
+  border-radius: 5px;
+  font-size: large;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: var(--secondary-color);
+  }
+}

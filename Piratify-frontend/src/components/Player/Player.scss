@@ -11,8 +11,8 @@
     stroke 0.1s,
     fill 0.1s;
   &:hover {
-    stroke: #838383;
-    fill: #838383;
+    stroke: var(--secondary-text-color);
+    fill: var(--secondary-text-color);
   }
 }
 
