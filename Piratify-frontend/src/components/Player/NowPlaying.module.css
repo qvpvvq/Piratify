@@ -1,0 +1,29 @@
+.nowPlaying {
+  height: 100%;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  position: absolute;
+  right: 20px;
+}
+.trackInfo {
+  display: flex;
+  flex-direction: column;
+}
+.imgContainer {
+  height: 32px;
+}
+.trackImg {
+  height: 100%;
+}
+.artist {
+  font-size: 12px;
+  font-weight: bolder;
+  color: var(--secondary-text-color);
+}
+.title {
+  font-size: 16px;
+  font-weight: bolder;
+}

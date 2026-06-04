@@ -1,8 +1,9 @@
+import type React from "react";
+
 export interface Track {
   id: number;
   title: string;
   artist: string;
-  duration: number;
   iconURL: string;
   fileURL: string;
 }
@@ -14,4 +15,13 @@ export interface PlayerStore {
   setCurrentTrack: (track: Track) => void;
   setIsPlaying: (value: boolean) => void;
   togglePlay: () => void;
+}
+
+export interface TrackInfoProps {
+  track: Track;
+  onClick?: () => void;
+}
+
+export interface PlaybackProps {
+  audioRef: React.RefObject<HTMLAudioElement | null>;
 }

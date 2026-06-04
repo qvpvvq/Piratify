@@ -5,6 +5,7 @@ interface AppSliderProps {
   onChange: (value: number) => void;
   onSeekEnd: () => void;
   onSeekStart: () => void;
+  onChangeCommitted: (value: number) => void;
 }
 
 export default function AppSlider({
@@ -13,14 +14,18 @@ export default function AppSlider({
   onChange,
   onSeekEnd,
   onSeekStart,
+  onChangeCommitted,
 }: AppSliderProps) {
   return (
     <Slider
       value={value}
       max={max}
       onChange={(_, value) => onChange(value as number)}
+      onChangeCommitted={(_, value) => {
+        onChangeCommitted(value as number);
+        onSeekEnd();
+      }}
       onPointerDown={onSeekStart}
-      onChangeCommitted={onSeekEnd}
       sx={{
         height: 2,
         flex: 1,

@@ -1,5 +1,6 @@
 .player {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   border-top: 2px solid black;
@@ -21,7 +22,8 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  min-width: 120px;
+  width: 120px;
+  flex-shrink: 0;
 }
 .skip {
   background: transparent;

@@ -2,27 +2,33 @@ import "./Playback.scss";
 import { useEffect, useState } from "react";
 import AppSlider from "./AppSlider";
 import { formatTime } from "@/utils/formatTime";
+import type { PlaybackProps } from "@/types/types";
 
-export default function Playback({ isPlaying }: { isPlaying: boolean }) {
+export default function Playback({ audioRef }: PlaybackProps) {
   const [timepassed, setTimePassed] = useState(0);
-  const duration = 98;
+  const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
-  useEffect(() => {
-    const handleMouseUp = () => setIsSeeking(false);
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => window.removeEventListener("mouseup", handleMouseUp);
-  }, []);
 
   useEffect(() => {
-    const tick = () =>
-      setTimePassed((prev) => {
-        if (prev >= duration) return prev;
-        return prev + 1;
-      });
-    if (!isPlaying || isSeeking) return;
-    const interval = setInterval(tick, 1000);
-    return () => clearInterval(interval);
-  }, [isPlaying, isSeeking]);
+    const audio = audioRef.current;
+    const handleLoadedMetadata = () => {
+      setDuration(audio?.duration || 0);
+    };
+    audio?.addEventListener("loadedmetadata", handleLoadedMetadata);
+    return () =>
+      audio?.removeEventListener("loadedmetadata", handleLoadedMetadata);
+  }, [audioRef]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    const handleTimeUpdate = () => {
+      if (!isSeeking) {
+        setTimePassed(audioRef.current?.currentTime || 0);
+      }
+    };
+    audio?.addEventListener("timeupdate", handleTimeUpdate);
+    return () => audio?.removeEventListener("timeupdate", handleTimeUpdate);
+  }, [isSeeking, audioRef]);
 
   return (
     <div className="playback">
@@ -33,6 +39,9 @@ export default function Playback({ isPlaying }: { isPlaying: boolean }) {
         value={timepassed}
         max={duration}
         onChange={(value) => setTimePassed(value)}
+        onChangeCommitted={(value) => {
+          if (audioRef.current) audioRef.current.currentTime = value;
+        }}
         onSeekStart={() => setIsSeeking(true)}
         onSeekEnd={() => setIsSeeking(false)}
       />
