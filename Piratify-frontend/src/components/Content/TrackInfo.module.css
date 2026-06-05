@@ -1,17 +1,42 @@
 .trackItem {
+  cursor: pointer;
   display: flex;
   width: 70%;
   align-items: center;
-  padding: 5px;
+  padding: 10px;
   border-radius: 10px;
   gap: 10px;
   &:hover {
     background-color: var(--secondary-color);
   }
+  &.active {
+    color: var(--brand-color);
+  }
 }
 .trackIcon {
   width: 100%;
   aspect-ratio: 1/1;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+.isPlaying {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: none;
+  cursor: pointer;
+}
+.isPlayingIcon {
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 75%;
+  height: 75%;
+  fill: var(--primary-color);
+  color: var(--primary-color);
+  position: relative;
+  z-index: 1;
 }
 .artist {
   opacity: 70%;

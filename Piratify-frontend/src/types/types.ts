@@ -19,7 +19,8 @@ export interface PlayerStore {
 
 export interface TrackInfoProps {
   track: Track;
-  onClick?: () => void;
+  setCurrentTrack: (track: Track) => void;
+  isActive?: boolean;
 }
 
 export interface PlaybackProps {

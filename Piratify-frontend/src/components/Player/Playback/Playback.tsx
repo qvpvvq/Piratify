@@ -1,5 +1,5 @@
 import "./Playback.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppSlider from "./AppSlider";
 import { formatTime } from "@/utils/formatTime";
 import type { PlaybackProps } from "@/types/types";
@@ -7,28 +7,25 @@ import type { PlaybackProps } from "@/types/types";
 export default function Playback({ audioRef }: PlaybackProps) {
   const [timepassed, setTimePassed] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isSeeking, setIsSeeking] = useState(false);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    const handleLoadedMetadata = () => {
-      setDuration(audio?.duration || 0);
-    };
-    audio?.addEventListener("loadedmetadata", handleLoadedMetadata);
-    return () =>
-      audio?.removeEventListener("loadedmetadata", handleLoadedMetadata);
-  }, [audioRef]);
+  const isSeeking = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     const handleTimeUpdate = () => {
-      if (!isSeeking) {
+      if (!isSeeking.current) {
         setTimePassed(audioRef.current?.currentTime || 0);
       }
     };
+    const handleLoadedMetadata = () => {
+      setDuration(audio?.duration || 0);
+    };
     audio?.addEventListener("timeupdate", handleTimeUpdate);
-    return () => audio?.removeEventListener("timeupdate", handleTimeUpdate);
-  }, [isSeeking, audioRef]);
+    audio?.addEventListener("loadedmetadata", handleLoadedMetadata);
+    return () => {
+      audio?.removeEventListener("timeupdate", handleTimeUpdate);
+      audio?.removeEventListener("loadedmetadata", handleLoadedMetadata);
+    };
+  }, [audioRef]);
 
   return (
     <div className="playback">
@@ -42,8 +39,8 @@ export default function Playback({ audioRef }: PlaybackProps) {
         onChangeCommitted={(value) => {
           if (audioRef.current) audioRef.current.currentTime = value;
         }}
-        onSeekStart={() => setIsSeeking(true)}
-        onSeekEnd={() => setIsSeeking(false)}
+        onSeekStart={() => (isSeeking.current = true)}
+        onSeekEnd={() => (isSeeking.current = false)}
       />
       <div className="playback-duration">
         <span>{formatTime(duration)}</span>
