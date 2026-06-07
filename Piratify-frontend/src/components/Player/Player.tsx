@@ -1,17 +1,19 @@
-import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
+// styles
 import "./Player.scss";
-import Playback from "./Playback/Playback";
-import { usePlayerStore } from "@/store/PlayerStore";
+// components
 import NowPlaying from "./NowPlaying";
+import Playback from "./Playback/Playback";
+import ControlButtons from "./ControlButtons";
+// hooks
+import { usePlayerStore } from "@/store/PlayerStore";
 import { useEffect } from "react";
 import { useAudioControl } from "@/hooks/useAudioControl";
 
 export default function Player() {
   const isPlaying = usePlayerStore((state) => state.isPlaying);
-  const togglePlay = usePlayerStore((state) => state.togglePlay);
   const currentTrack = usePlayerStore((state) => state.currentTrack);
   const { audioRef, play, pause } = useAudioControl();
-
+  const setIsPlaying = usePlayerStore((state) => state.setIsPlaying);
   useEffect(() => {
     if (isPlaying) {
       play();
@@ -20,29 +22,28 @@ export default function Player() {
     }
   }, [isPlaying, play, pause]);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+    if (!audioRef.current) return;
+    audio?.addEventListener("play", onPlay);
+    audio?.addEventListener("pause", onPause);
+    return () => {
+      audio?.removeEventListener("play", onPlay);
+      audio?.removeEventListener("pause", onPause);
+    };
+    // eslint-disable-next-line
+  }, [setIsPlaying]);
   if (!currentTrack) {
     return null;
   }
   return (
     <div className="player">
-      <div className="play-control">
-        <button className="skip">
-          <SkipBack className="skip-icon" color="#fff" fill="#fff" />
-        </button>
-        <button onClick={togglePlay} className="play">
-          {isPlaying ? (
-            <Pause color="#323232" fill="#303030" size={20} />
-          ) : (
-            <Play color="#323232" fill="#303030" size={20} />
-          )}
-        </button>
-        <button className="skip">
-          <SkipForward className="skip-icon" color="#fff" fill="#fff" />
-        </button>
-      </div>
+      <ControlButtons />
       <Playback audioRef={audioRef} />
       <audio ref={audioRef} src={currentTrack.fileURL}></audio>
-      <NowPlaying track={currentTrack} />
+      <NowPlaying />
     </div>
   );
 }
