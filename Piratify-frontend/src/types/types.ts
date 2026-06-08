@@ -13,10 +13,12 @@ export interface PlayerStore {
   isPlaying: boolean;
   currentTime: number;
   volume: number;
+  isLooped: boolean;
   setVolume: (value: number) => void;
   setCurrentTrack: (track: Track) => void;
   setIsPlaying: (value: boolean) => void;
   togglePlay: () => void;
+  toggleLooped: () => void;
 }
 
 export interface TrackInfoProps {

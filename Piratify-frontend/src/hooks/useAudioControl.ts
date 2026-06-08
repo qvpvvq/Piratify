@@ -18,5 +18,9 @@ export const useAudioControl = () => {
     }
   };
 
-  return { audioRef, play, pause, toggle };
+  const setAudioVolume = (value: number) => {
+    if (audioRef.current) audioRef.current.volume = value;
+  };
+
+  return { audioRef, play, pause, toggle, setAudioVolume };
 };

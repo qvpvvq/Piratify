@@ -7,14 +7,16 @@ import ControlButtons from "./ControlButtons";
 import VolumeController from "./VolumeController";
 // hooks
 import { usePlayerStore } from "@/store/PlayerStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAudioControl } from "@/hooks/useAudioControl";
 
 export default function Player() {
   const isPlaying = usePlayerStore((state) => state.isPlaying);
   const currentTrack = usePlayerStore((state) => state.currentTrack);
-  const { audioRef, play, pause } = useAudioControl();
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying);
+  const volume = usePlayerStore((state) => state.volume);
+  const { audioRef, play, pause, setAudioVolume } = useAudioControl();
+  const isLooped = usePlayerStore((state) => state.isLooped);
 
   useEffect(() => {
     if (isPlaying) {
@@ -37,6 +39,11 @@ export default function Player() {
     };
     // eslint-disable-next-line
   }, [setIsPlaying]);
+
+  useEffect(() => {
+    setAudioVolume(volume);
+  }, [volume, setAudioVolume]);
+
   if (!currentTrack) {
     return null;
   }
@@ -45,7 +52,7 @@ export default function Player() {
       <ControlButtons />
       <Playback audioRef={audioRef} />
       <VolumeController />
-      <audio ref={audioRef} src={currentTrack.fileURL}></audio>
+      <audio loop={isLooped} ref={audioRef} src={currentTrack.fileURL}></audio>
       <NowPlaying />
     </div>
   );
