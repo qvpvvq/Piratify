@@ -11,6 +11,8 @@
   flex-direction: column;
 }
 .imgContainer {
+  border-radius: 5px;
+  overflow: hidden;
   height: 32px;
 }
 .trackImg {

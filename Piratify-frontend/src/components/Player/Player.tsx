@@ -4,6 +4,7 @@ import "./Player.scss";
 import NowPlaying from "./NowPlaying";
 import Playback from "./Playback/Playback";
 import ControlButtons from "./ControlButtons";
+import VolumeController from "./VolumeController";
 // hooks
 import { usePlayerStore } from "@/store/PlayerStore";
 import { useEffect } from "react";
@@ -14,6 +15,7 @@ export default function Player() {
   const currentTrack = usePlayerStore((state) => state.currentTrack);
   const { audioRef, play, pause } = useAudioControl();
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying);
+
   useEffect(() => {
     if (isPlaying) {
       play();
@@ -42,6 +44,7 @@ export default function Player() {
     <div className="player">
       <ControlButtons />
       <Playback audioRef={audioRef} />
+      <VolumeController />
       <audio ref={audioRef} src={currentTrack.fileURL}></audio>
       <NowPlaying />
     </div>

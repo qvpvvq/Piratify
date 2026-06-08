@@ -12,6 +12,8 @@ export interface PlayerStore {
   currentTrack: Track | null;
   isPlaying: boolean;
   currentTime: number;
+  volume: number;
+  setVolume: (value: number) => void;
   setCurrentTrack: (track: Track) => void;
   setIsPlaying: (value: boolean) => void;
   togglePlay: () => void;

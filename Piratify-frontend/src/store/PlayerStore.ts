@@ -7,6 +7,9 @@ export const usePlayerStore = create<PlayerStore>()(
     currentTrack: null,
     isPlaying: false,
     currentTime: 0,
+    volume: 0.7,
+    setVolume: (value: number) =>
+      set({ volume: Math.max(0, Math.min(1, value)) }),
     setCurrentTrack: (track: Track) => {
       set({ isPlaying: true, currentTrack: track });
     },

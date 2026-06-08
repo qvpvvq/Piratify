@@ -22,7 +22,7 @@ export default memo(function TrackInfo({
     >
       <div className={styles.iconContainer}>
         <button className={styles.isPlaying}>
-          {isActive && <PlayPauseIcon isHovered={isHovered} />}
+          {isActive && <PlayPauseIcon />}
           {!isActive && isHovered && <Play className={styles.isPlayingIcon} />}
           <img
             src={track.iconURL}
